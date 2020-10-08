@@ -54,10 +54,10 @@ const UpdateNinja = (props) => {
     window.history.back()
   }
 
- 
-const radios = i =>{
-  if (i===true)
-      return <form className='mb-3' onSubmit={handleSubmit}>
+  return (
+    <>
+    {console.log(available)}
+    <form className='mb-3' onSubmit={handleSubmit}>
       <h4>Update Ninja</h4>
       <div className='form-group'>
       <label className='text-muted'>Name</label>
@@ -79,12 +79,12 @@ const radios = i =>{
       </div>
       <div className='form-group'>
       <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  />
+      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  checked={available==false | available=='false'}/>
       <label className="form-check-label" >
           Not available</label>
       </div>
       <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange} checked/>
+      <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange}  checked={available==true | available=='true'}/>
       <label className="form-check-label" >
           Available</label>
       </div>
@@ -111,69 +111,6 @@ const radios = i =>{
       <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
       </div>
   </form>
-   else 
-        return <form className='mb-3' onSubmit={handleSubmit}>
-        <h4>Update Ninja</h4>
-        <div className='form-group'>
-        <label className='text-muted'>Name</label>
-        <input className='form-control'
-            type='text'
-            name = 'name'
-            value= {name}
-            onChange={handleChange}
-        />
-        </div>
-        <div className='form-group'>
-        <label className='text-muted'>Rank</label>
-        <input className='form-control'
-            type='text'
-            name = 'rank'
-            value= {rank}
-            onChange={handleChange}
-        />
-        </div>
-        <div className='form-group'>
-        <div className="form-check-inline">
-        <input className="form-check-input" type="radio" name='available' value='false'  onChange={handleChange} checked/>
-        <label className="form-check-label" >
-            Not available</label>
-        </div>
-        <div className="form-check-inline">
-        <input className="form-check-input" type="radio" name='available' value='true' onChange={handleChange}  />
-        <label className="form-check-label" >
-            Available</label>
-        </div>
-        </div> 
-        <div className='form-group'>
-        <label className='text-muted'>Lng</label>
-        <input className='form-control'
-            type='number'
-            name='lng'
-            value= {lng}
-            onChange={handleChange}       
-        />
-        </div>
-        <div className='form-group'>
-        <label className='text-muted'>Lat</label>
-        <input className='form-control'
-            type='number'
-            name='lat'
-            value= {lat}
-            onChange={handleChange}
-        />
-        </div>
-        <div className='form-group'>
-        <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
-        </div>
-    </form>
-        }
-   
-  
-
-  return (
-    <>
-    {console.log(available)}
-     {radios(available)}
     </>
   ) 
 }
@@ -181,38 +118,3 @@ const radios = i =>{
 export default UpdateNinja
 
 
-/* {<div className='form-group'>
-<label className='text-muted'>Available</label>
-<input className='form-control'
-    type='text'
-    name = 'available'
-    value= {ninja.available}
-      onChange={handleChange}
-/>
-</div> } */
-
-/* {<div className='form-group'>
-<div className="form-check-inline">
-<input className="form-check-input" type="radio" name='available'  onChange={handleChange} value={'false' ? ninja.available=false : ninja.available=true}  />
-<label className="form-check-label" >
-    Not available</label>
-</div>
-<div className="form-check-inline">
-<input className="form-check-input" type="radio" name='available'  onChange={handleChange} value={'true' ? ninja.available=true : ninja.available=false} />
-<label className="form-check-label" >
-    Available</label>
-</div>
-</div> } */
-
-
-  //const [coordinates, setCoordinates] = useState({});
-
-/*  const radioChecked =i=>{
-    i ? checked='checked' : checked=''
-  } 
-  
-   const [coordinates, setCoordinates] = useState({});
-
-  const [lng,lat] = coordinates
-  
-  */ 
