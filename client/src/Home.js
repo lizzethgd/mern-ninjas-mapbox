@@ -23,7 +23,6 @@ class Home extends Component {
     
     render() {
         let ninjas = this.state.ninjas;
-        console.log(ninjas)
         ninjas= ninjas.map((ninja, i) => 
             ( <Link to={`/ninja/${ninja._id}`} key={i}><li >
                     <span className={ ninja.available ? 'true' : 'false'}></span>

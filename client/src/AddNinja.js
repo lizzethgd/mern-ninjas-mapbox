@@ -10,7 +10,7 @@ const AddNinja = () => {
     available: '',
     lng: '',
     lat: '',
-    error: '',
+    error: ''
   })
 
   const {
@@ -29,7 +29,7 @@ const AddNinja = () => {
 
 const handleSubmit = e => {
   e.preventDefault();
-  addNinja(name, rank, JSON.parse(available), parseFloat(lng), parseFloat(lat))
+  addNinja(name, rank, JSON.parse(available), lng, lat)
   window.history.back()
 }
 
@@ -40,17 +40,17 @@ const handleSubmit = e => {
             <div className='form-group'>
             <label className='text-muted'>Name</label>
             <input className='form-control'
-                onChange={handleChange}
                 type='text'
                 name = 'name'
+                onChange={handleChange}
             />
             </div>
             <div className='form-group'>
             <label className='text-muted'>Rank</label>
             <input className='form-control'
-                onChange={handleChange}
                 type='text'
                 name = 'rank'
+                onChange={handleChange}
             />
             </div>
             <div className='form-group'>
@@ -69,17 +69,17 @@ const handleSubmit = e => {
             <div className='form-group'>
             <label className='text-muted'>Lng</label>
             <input className='form-control'
-                onChange={handleChange}
                 type='number'
                 name='lng'
+                onChange={handleChange}
             />
             </div>
             <div className='form-group'>
             <label className='text-muted'>Lat</label>
             <input className='form-control'
-                onChange={handleChange}
                 type='number'
                 name='lat'
+                onChange={handleChange}
             />
             </div>
             <div className='form-group'>

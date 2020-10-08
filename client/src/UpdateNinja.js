@@ -49,6 +49,8 @@ const UpdateNinja = (props) => {
     const ninjaId = props.match.params.id
     const availableF= typeof available == Boolean ? available : JSON.parse(available)
     updateNinja(ninjaId, name, rank, availableF, lng, lat)
+    console.log(available+' '+typeof available)
+    console.log('f: '+availableF+' '+typeof availableF)
     window.history.back()
   }
 
@@ -82,7 +84,7 @@ const radios = i =>{
           Not available</label>
       </div>
       <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='true' defaultChecked onChange={handleChange} />
+      <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange} checked/>
       <label className="form-check-label" >
           Available</label>
       </div>
@@ -132,7 +134,7 @@ const radios = i =>{
         </div>
         <div className='form-group'>
         <div className="form-check-inline">
-        <input className="form-check-input" type="radio" name='available' value='false' defaultChecked onChange={handleChange}  />
+        <input className="form-check-input" type="radio" name='available' value='false'  onChange={handleChange} checked/>
         <label className="form-check-label" >
             Not available</label>
         </div>
@@ -170,7 +172,7 @@ const radios = i =>{
 
   return (
     <>
-    {console.log(ninja)}
+    {console.log(available)}
      {radios(available)}
     </>
   ) 
