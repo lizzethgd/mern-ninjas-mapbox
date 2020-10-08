@@ -1,49 +1,46 @@
-import React, {Component} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {addNinja} from './apiCore'
 
-class AddNinja extends Component {
+const AddNinja = () => {
 
-  state = { 
+  const [ninja, setNinja] = useState({
     name: '',
     rank: '',
-    available: false,
+    available: '',
     lng: '',
     lat: '',
     error: '',
-    addedNinja: ''
+  })
+
+  const {
+    name,
+    rank,
+    available,
+    lng,
+    lat,
+    error,
+  } = ninja
+
+
+  const handleChange = e => {
+    setNinja({ ...ninja, [e.target.name]: e.target.value })
 }
 
-handleChange =  e => {
-  this.setState({[e.target.name]: e.target.value })
-}
-
-handleSubmit = e => {
+const handleSubmit = e => {
   e.preventDefault();
-  addNinja(this.state.name, this.state.rank, parseFloat(this.state.lng), parseFloat(this.state.lat))
-  .then(data => { data.error ? this.setState({error: data.error}): this.setState({ninjas: data}) })
+  addNinja(name, rank, JSON.parse(available), parseFloat(lng), parseFloat(lat))
   window.history.back()
 }
 
-showError = () => (
-  <div className='alert alert-danger' style={{ display: this.error ? this.error : 'none' }} >
-    {this.error}
-  </div>
-)
-
-render() {
-
-
-
     return (
         <>
-            {this.showError()}
-        <form className='mb-3' onSubmit={this.handleSubmit}>
+        <form className='mb-3' onSubmit={handleSubmit}>
             <h4>Add Ninja</h4>
             <div className='form-group'>
             <label className='text-muted'>Name</label>
             <input className='form-control'
-                onChange={this.handleChange}
+                onChange={handleChange}
                 type='text'
                 name = 'name'
             />
@@ -51,48 +48,46 @@ render() {
             <div className='form-group'>
             <label className='text-muted'>Rank</label>
             <input className='form-control'
-                onChange={this.handleChange}
+                onChange={handleChange}
                 type='text'
                 name = 'rank'
             />
             </div>
             <div className='form-group'>
-            <label className='text-muted'>Available</label>
-            <input className='form-control'
-                onChange={this.handleChange}
-                type='text'
-                name = 'available'
-            />
+                <div className="form-check-inline">
+                <input className="form-check-input" type="radio" name='available'  onChange={handleChange} value='false' />
+                <label className="form-check-label" >
+                    Not available</label>
+                </div>
+                <div className="form-check-inline">
+                <input className="form-check-input" type="radio" name='available'  onChange={handleChange} value='true' />
+                <label className="form-check-label" >
+                    Available</label>
+                </div>
             </div>
+
             <div className='form-group'>
             <label className='text-muted'>Lng</label>
-            <input
-                onChange={this.handleChange}
+            <input className='form-control'
+                onChange={handleChange}
                 type='number'
-                className='form-control'
                 name='lng'
             />
             </div>
             <div className='form-group'>
             <label className='text-muted'>Lat</label>
-            <input
-                onChange={this.handleChange}
+            <input className='form-control'
+                onChange={handleChange}
                 type='number'
-                className='form-control'
                 name='lat'
             />
             </div>
-            <button className='btn btn-outline-primary' onClick={this.handleSubmit}>Create ninjas</button>
+            <div className='form-group'>
+            <button className='btn btn-success' onClick={handleSubmit}>Add ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
+            </div>
         </form>
-        <div className="mt-5">
-          <Link to="/" className="text-warning">
-            Back to Dashboard
-          </Link>
-        </div>
         </>
     )
-}
-
 }
 
 export default AddNinja

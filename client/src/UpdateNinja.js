@@ -1,98 +1,216 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {updateNinja} from './apiCore'
+import React, {useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
+import { getNinja, updateNinja } from './apiCore';
 
-class UpdateNinja extends Component {
+const UpdateNinja = (props) => {
 
-  state = { 
+  const [ninja, setNinja] = useState({
     name: '',
     rank: '',
     available: false,
-    lng: '',
-    lat: '',
-    error: '',
-    addedNinja: ''
+    lng: 0,
+    lat: 0,
+    error: ''
+  });
+
+  const {
+    name,
+    rank,
+    available,
+    lng,
+    lat,
+    error
+  } = ninja
+
+
+  useEffect(() => {
+    const ninjaId = props.match.params.id
+    loadSingleNinja(ninjaId);
+  }, [props])
+
+  const loadSingleNinja = ninjaId => {
+    getNinja(ninjaId).then(data => {
+      if (data.error) {
+        setNinja({...ninja, error: data.error})
+        console.log(error)
+      } else {
+        setNinja({...ninja, name: data.name, rank: data.rank, available: data.available,
+        lng: data.geometry.coordinates[0], lat: data.geometry.coordinates[1] })
+      }
+    });
+  }
+
+  const handleChange = e => {
+    setNinja({ ...ninja, [e.target.name]: e.target.value })
 }
 
-handleChange =  e => {
-  this.setState({[e.target.name]: e.target.value })
-}
+  const handleSubmit = e => {
+    e.preventDefault();
+    const ninjaId = props.match.params.id
+    const availableF= typeof available == Boolean ? available : JSON.parse(available)
+    updateNinja(ninjaId, name, rank, availableF, lng, lat)
+    window.history.back()
+  }
 
-handleSubmit = e => {
-  e.preventDefault();
-  updateNinja(this.state.name, this.state.rank, parseFloat(this.state.lng), parseFloat(this.state.lat))
-  .then(data => { data.error ? this.setState({error: data.error}): this.setState({ninjas: data}) })
-  window.history.back()
-}
-
-showError = () => (
-  <div className='alert alert-danger' style={{ display: this.error ? this.error : 'none' }} >
-    {this.error}
-  </div>
-)
-
-render() {
-
-
-
-    return (
-        <>
-            {this.showError()}
-        <form className='mb-3' onSubmit={this.handleSubmit}>
-            <h4>Add Ninja</h4>
-            <div className='form-group'>
-            <label className='text-muted'>Name</label>
-            <input className='form-control'
-                onChange={this.handleChange}
-                type='text'
-                name = 'name'
-            />
-            </div>
-            <div className='form-group'>
-            <label className='text-muted'>Rank</label>
-            <input className='form-control'
-                onChange={this.handleChange}
-                type='text'
-                name = 'rank'
-            />
-            </div>
-            <div className='form-group'>
-            <label className='text-muted'>Available</label>
-            <input className='form-control'
-                onChange={this.handleChange}
-                type='text'
-                name = 'available'
-            />
-            </div>
-            <div className='form-group'>
-            <label className='text-muted'>Lng</label>
-            <input
-                onChange={this.handleChange}
-                type='number'
-                className='form-control'
-                name='lng'
-            />
-            </div>
-            <div className='form-group'>
-            <label className='text-muted'>Lat</label>
-            <input
-                onChange={this.handleChange}
-                type='number'
-                className='form-control'
-                name='lat'
-            />
-            </div>
-            <button className='btn btn-outline-primary' onClick={this.handleSubmit}>Create ninjas</button>
-        </form>
-        <div className="mt-5">
-          <Link to="/" className="text-warning">
-            Back to Dashboard
-          </Link>
+ 
+const radios = i =>{
+  if (i===true)
+      return <form className='mb-3' onSubmit={handleSubmit}>
+      <h4>Update Ninja</h4>
+      <div className='form-group'>
+      <label className='text-muted'>Name</label>
+      <input className='form-control'
+          type='text'
+          name = 'name'
+          value= {name}
+          onChange={handleChange}
+      />
+      </div>
+      <div className='form-group'>
+      <label className='text-muted'>Rank</label>
+      <input className='form-control'
+          type='text'
+          name = 'rank'
+          value= {rank}
+          onChange={handleChange}
+      />
+      </div>
+      <div className='form-group'>
+      <div className="form-check-inline">
+      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  />
+      <label className="form-check-label" >
+          Not available</label>
+      </div>
+      <div className="form-check-inline">
+      <input className="form-check-input" type="radio" name='available' value='true' defaultChecked onChange={handleChange} />
+      <label className="form-check-label" >
+          Available</label>
+      </div>
+      </div> 
+      <div className='form-group'>
+      <label className='text-muted'>Lng</label>
+      <input className='form-control'
+          type='number'
+          name='lng'
+          value= {lng}
+          onChange={handleChange}      
+      />
+      </div>
+      <div className='form-group'> 
+      <label className='text-muted'>Lat</label>
+      <input className='form-control'
+          type='number'
+          name='lat'
+          value= {lat}
+          onChange={handleChange}
+      />
+      </div>
+      <div className='form-group'>
+      <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
+      </div>
+  </form>
+   else 
+        return <form className='mb-3' onSubmit={handleSubmit}>
+        <h4>Update Ninja</h4>
+        <div className='form-group'>
+        <label className='text-muted'>Name</label>
+        <input className='form-control'
+            type='text'
+            name = 'name'
+            value= {name}
+            onChange={handleChange}
+        />
         </div>
-        </>
-    )
-}
+        <div className='form-group'>
+        <label className='text-muted'>Rank</label>
+        <input className='form-control'
+            type='text'
+            name = 'rank'
+            value= {rank}
+            onChange={handleChange}
+        />
+        </div>
+        <div className='form-group'>
+        <div className="form-check-inline">
+        <input className="form-check-input" type="radio" name='available' value='false' defaultChecked onChange={handleChange}  />
+        <label className="form-check-label" >
+            Not available</label>
+        </div>
+        <div className="form-check-inline">
+        <input className="form-check-input" type="radio" name='available' value='true' onChange={handleChange}  />
+        <label className="form-check-label" >
+            Available</label>
+        </div>
+        </div> 
+        <div className='form-group'>
+        <label className='text-muted'>Lng</label>
+        <input className='form-control'
+            type='number'
+            name='lng'
+            value= {lng}
+            onChange={handleChange}       
+        />
+        </div>
+        <div className='form-group'>
+        <label className='text-muted'>Lat</label>
+        <input className='form-control'
+            type='number'
+            name='lat'
+            value= {lat}
+            onChange={handleChange}
+        />
+        </div>
+        <div className='form-group'>
+        <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
+        </div>
+    </form>
+        }
+   
+  
 
+  return (
+    <>
+    {console.log(ninja)}
+     {radios(available)}
+    </>
+  ) 
 }
 
 export default UpdateNinja
+
+
+/* {<div className='form-group'>
+<label className='text-muted'>Available</label>
+<input className='form-control'
+    type='text'
+    name = 'available'
+    value= {ninja.available}
+      onChange={handleChange}
+/>
+</div> } */
+
+/* {<div className='form-group'>
+<div className="form-check-inline">
+<input className="form-check-input" type="radio" name='available'  onChange={handleChange} value={'false' ? ninja.available=false : ninja.available=true}  />
+<label className="form-check-label" >
+    Not available</label>
+</div>
+<div className="form-check-inline">
+<input className="form-check-input" type="radio" name='available'  onChange={handleChange} value={'true' ? ninja.available=true : ninja.available=false} />
+<label className="form-check-label" >
+    Available</label>
+</div>
+</div> } */
+
+
+  //const [coordinates, setCoordinates] = useState({});
+
+/*  const radioChecked =i=>{
+    i ? checked='checked' : checked=''
+  } 
+  
+   const [coordinates, setCoordinates] = useState({});
+
+  const [lng,lat] = coordinates
+  
+  */ 

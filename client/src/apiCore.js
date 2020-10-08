@@ -13,10 +13,11 @@ export const getNinjas = (lgn,lat) => {
 }
   
 
-export const addNinja = ( nameF, rankF, lng, lat ) => {
+export const addNinja = ( nameF, rankF, availableF, lng, lat ) => {
   const ninja = {
           name: nameF,
           rank: rankF,
+          available : availableF,
           geometry: {
             type: 'Point',
             coordinates: [lng,lat]
@@ -61,11 +62,29 @@ export const deleteNinja = (ninjaId) => {
 }
 
 
-export const updateNinja = (ninjaId) => {
+export const updateNinja = (ninjaId, nameF, rankF, availableF, lng, lat) => {
+  const ninja = {
+    name: nameF,
+    rank: rankF,
+    available : availableF,
+    geometry: {
+      type: 'Point',
+      coordinates: [lng,lat]
+      }
+  }
   return fetch(`/api/ninjas/${ninjaId}`, {
-    method: "PUT"
-  }).then(response => {
-    return response.json();
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(ninja) 
   })
-    .catch(err => console.log(err))
+    .then(response => {
+      return response.json()
+    })
+    .catch(err => {
+      console.log(err)
+      return;
+    })
 }
+  

@@ -20,11 +20,11 @@ const Ninja = (props) => {
       } else {
         setNinja(data);
         setCoordinates(data.geometry.coordinates)
+        console.log(data.geometry.coordinates)
       }
     });
   }
- 
-  console.log(ninja._id)
+
   
  const delNinja =  async () => {
       await deleteNinja(ninja._id)
