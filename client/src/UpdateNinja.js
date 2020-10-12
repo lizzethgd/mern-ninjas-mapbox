@@ -5,6 +5,7 @@ import { getNinja, updateNinja } from './apiCore';
 const UpdateNinja = (props) => {
 
   const [ninja, setNinja] = useState({
+    id: props.match.params.id,
     name: '',
     rank: '',
     available: false,
@@ -14,6 +15,7 @@ const UpdateNinja = (props) => {
   });
 
   const {
+    id,
     name,
     rank,
     available,
@@ -24,12 +26,12 @@ const UpdateNinja = (props) => {
 
 
   useEffect(() => {
-    const ninjaId = props.match.params.id
-    loadSingleNinja(ninjaId);
-  }, [props])
+    loadSingleNinja();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const loadSingleNinja = ninjaId => {
-    getNinja(ninjaId).then(data => {
+  const loadSingleNinja = () => {
+    getNinja(ninja.id).then(data => {
       if (data.error) {
         setNinja({...ninja, error: data.error})
         console.log(error)
@@ -44,14 +46,13 @@ const UpdateNinja = (props) => {
     setNinja({ ...ninja, [e.target.name]: e.target.value })
 }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const ninjaId = props.match.params.id
     const availableF= typeof available == Boolean ? available : JSON.parse(available)
-    updateNinja(ninjaId, name, rank, availableF, lng, lat)
+    updateNinja(id, name, rank, availableF, lng, lat)
     console.log(available+' '+typeof available)
     console.log('f: '+availableF+' '+typeof availableF)
-    window.history.back()
+    await window.history.back()
   }
 
   return (
@@ -79,12 +80,12 @@ const UpdateNinja = (props) => {
       </div>
       <div className='form-group'>
       <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  checked={available==false | available=='false'}/>
+      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  checked={available===false | available==='false'}/>
       <label className="form-check-label" >
           Not available</label>
       </div>
       <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange}  checked={available==true | available=='true'}/>
+      <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange}  checked={available===true | available==='true'}/>
       <label className="form-check-label" >
           Available</label>
       </div>

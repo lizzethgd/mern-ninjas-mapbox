@@ -32,7 +32,8 @@ class Home extends Component {
             </li></Link>)
         )
         return (
-            <>        
+            <> 
+                <br/>       
                 <h1 className="title">NinjaGo - a Ninja REST API</h1>
                 <div id="homepage">
                     <h1>Hire a ninja in your area!</h1>

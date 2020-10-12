@@ -4,38 +4,47 @@ import { getNinja, deleteNinja } from './apiCore';
 import Card from './Card';
 
 const Ninja = (props) => {
-  const [ninja, setNinja] = useState({});
-  const [coordinates, setCoordinates] = useState({});
-  const [error, setError] = useState(false);
+
+  const [ninja, setNinja] = useState({
+    id: props.match.params.id,
+    name: '',
+    rank: '',
+    available: false,
+    lng: 0,
+    lat: 0,
+    error: ''
+  });
 
   useEffect(() => {
-    const ninjaId = props.match.params.id;
-    loadSingleNinja(ninjaId);
-  }, [props])
+    loadSingleNinja();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const loadSingleNinja = ninjaId => {
-    getNinja(ninjaId).then(data => {
+  const loadSingleNinja = () => {
+    getNinja(ninja.id).then(data => {
       if (data.error) {
-        setError(data.error);
+        setNinja({...ninja, error: data.error})
+        console.log(ninja.error)
       } else {
-        setNinja(data);
-        setCoordinates(data.geometry.coordinates)
-        console.log(data.geometry.coordinates)
+        setNinja({ ...ninja, name: data.name, rank: data.rank, 
+          available: data.available,
+          lng: data.geometry.coordinates[0], lat: data.geometry.coordinates[1] })
       }
     });
   }
 
-  
+
+
  const delNinja =  async () => {
-      await deleteNinja(ninja._id)
+      await deleteNinja(ninja.id)
       window.history.back()
    }
 
   return (
     <>
     <div className="container">
-        <Card ninja={ninja} coordinates={coordinates}/>
-        <Link className="btn btn-success" to={`/updateninja/${ninja._id}`}>Update</Link> <button className="btn btn-danger" onClick={delNinja}>Delete</button>
+        <Card ninja={ninja} />
+        <Link className="btn btn-success" to={`/updateninja/${ninja.id}`}>Update</Link> <button className="btn btn-danger" onClick={delNinja}>Delete</button>
         
     </div>
     </>

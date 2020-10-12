@@ -1,64 +1,43 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { NavItem } from "reactstrap";
+import React from 'react'
+import {NavLink} from 'react-router-dom'
+import {Navbar, Nav} from 'react-bootstrap'
+import reactLogo from './logo.svg'
 
-
-const Navigation = ({history}) => {
-  return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <a className="navbar-brand" href="/#">
-            Videogames
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <NavItem className="nav-link">
-                <Link className="nav-link" to="/">
-                  Inicio
-                </Link>
-              </NavItem>
-            </ul>
-            <ul className="navbar-nav">
+const Navibar = props => {
+    return (
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
              
-                  <NavItem className="nav-link">
-                    <Link className="nav-link" to="/signup">
-                      Singup
-                    </Link>
-                  </NavItem>
-                  <NavItem className="nav-link">
-                    <Link className="nav-link" to="/signin">
-                      Login
-                    </Link>
-                  </NavItem>
-                  <NavItem className="nav-link">
-                    <Link to="/addninja" className="nav-link">Add Ninja</Link>
-                  </NavItem>
-                  <NavItem className="nav-link">
-                    <Link to="/" className="nav-link"
-                          >
-                      Logout
-                    </Link>
-                  </NavItem>
-             
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-};
+      <NavLink className="navbar-brand" to="/">
+          <img
+          alt=""
+          src={reactLogo}
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+          />
+          {' '}
+          MERN Ninjas
+      </NavLink>
+     
+     
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ml-auto">
+              <NavLink className="navlink" to="/">Home</NavLink>
+              <NavLink className="navlink" to="/signup">Signup</NavLink>
+              <NavLink className="navlink" to="/login">Login</NavLink>
+              <NavLink className="navlink" to="/students">Students</NavLink>
+              <NavLink className="navlink" to="/addninja">Add</NavLink>
+              <NavLink className="navlink" to="/logout">Logout</NavLink>
+          </Nav>
+      </Navbar.Collapse>
+      
+</Navbar>
+    )
+}
 
-export default withRouter(Navigation);
+Navibar.propTypes = {
+
+}
+
+export default Navibar

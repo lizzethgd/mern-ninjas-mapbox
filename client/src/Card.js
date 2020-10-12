@@ -1,17 +1,22 @@
 import React from 'react';
 import './Card.css';
 
-const Card = ({ninja, coordinates}) => {
- 
- //console.log()
+const Card = ({ninja}) => {
+  const {
+    name,
+    rank,
+    available,
+    lng,
+    lat
+  } = ninja
  
   return (
     <div className="card m-10 card-cont">
       <div className="">   
-        <p>{ninja.name}</p>
-        <p>{ninja.rank}</p>
-        <p>{ninja.available ? 'Available' : 'Not available'}</p>
-        <p>{`Longitud: ${coordinates[0]}, Latitud: ${coordinates[1]}`}</p>
+        <h4>{name}</h4>
+        <p>{rank}</p>
+        <p>{available ? 'Available' : 'Not available'}</p>
+        <p>{`Longitud: ${lng}, Latitungd: ${lat}`}</p>
        
       </div>
     </div>
