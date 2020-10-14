@@ -25,10 +25,3 @@ const App = () => {
   }
   
   export default App;
-
-
-  /* <Route path="/signin" exact component={SignIn} />
-          <Route path="/signup" exact component={SignUp} />
-          <Route path="/addcategory" exact component={AddCategory}/>
-          <Route path="/addvideogame" exact component={AddVideogame}/>
-          <Route path="/videogame/:videogameId" exact component={Videogame}/> */

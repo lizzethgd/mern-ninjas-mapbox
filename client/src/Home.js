@@ -1,29 +1,28 @@
-import React, { Component } from 'react'
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {getNinjas} from './apiCore';
 
-class Home extends Component {
-    
-    state = { 
+const Home = (props) => {
+ 
+    const [ninjas, setNinjas] = useState({
         ninjas: [],
         lat: '',
         lng: '',
         error: ''
+      });
+  
+      const handleChange = e => {
+        setNinjas({ ...ninjas, [e.target.name]: e.target.value })
     }
   
-    handleChange= e => {
-        this.setState({[e.target.name]: e.target.value })
-    }
-  
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        getNinjas(this.state.lng,this.state.lat )
-        .then(data => { data.error ? this.setState({error: data.error}): this.setState({ninjas: data}) })
+        getNinjas(ninjas.lng, ninjas.lat )
+        .then(data => { data.error ?  setNinjas({...ninjas, error: data.error}): setNinjas({...ninjas, ninjas: data}) })
       }
     
-    render() {
-        let ninjas = this.state.ninjas;
-        ninjas= ninjas.map((ninja, i) => 
+
+      let ninjasList= ninjas.ninjas.map((ninja, i) => 
             ( <Link to={`/ninja/${ninja._id}`} key={i}><li >
                     <span className={ ninja.available ? 'true' : 'false'}></span>
                     <span className="name">{ninja.name}</span>
@@ -40,23 +39,19 @@ class Home extends Component {
                      <div id="ninjas"></div>
                 </div>
                      <div id="ninja-container">
-                        <form id="search" onSubmit={this.handleSubmit}>
+                        <form id="search" onSubmit={handleSubmit}>
                         <label>Enter your Longitude:</label>
-                            <input type="text" name="lng" placeholder="longitude"  onChange={this.handleChange} required />
+                            <input type="text" name="lng" placeholder="longitude"  onChange={handleChange} required />
                             <label>Enter your Latitude:</label>
-                            <input type="text" name="lat" placeholder="latitude"  onChange={this.handleChange}  required />
+                            <input type="text" name="lat" placeholder="latitude"  onChange={handleChange}  required />
                             <input type="submit" value="Find Ninjas" />
                         </form>
-                        <ul>{ninjas}</ul>
+                        <ul>{ninjasList}</ul>
                 </div>        
          </>
         )
     }
-  }
+  
   
   export default Home;
   
-
-  /*  <Link to={`/videogame/${videogame._id}`}>
-<button className="btn btn-success">Ver Mas</button>
-</Link> */
