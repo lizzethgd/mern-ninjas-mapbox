@@ -26,7 +26,7 @@ const Navibar = props => {
               <NavLink className="navlink" to="/">Home</NavLink>
               <NavLink className="navlink" to="/signup">Signup</NavLink>
               <NavLink className="navlink" to="/login">Login</NavLink>
-              <NavLink className="navlink" to="/students">Students</NavLink>
+              <NavLink className="navlink" to="/ninjas">Ninjask</NavLink>
               <NavLink className="navlink" to="/addninja">Add</NavLink>
               <NavLink className="navlink" to="/logout">Logout</NavLink>
           </Nav>

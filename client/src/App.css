@@ -93,3 +93,33 @@ span.false{
 color: white;
 text-decoration: none;
 }
+
+.map{
+ display : flex;
+ justify-content: center;
+}
+
+.map-controlls{
+  display : flex;
+  justify-content: left;
+}  
+
+.cluster-marker {
+  color: #fff;
+  background: #1978c8;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ninja-marker {
+  background: none;
+  border: none;
+}
+
+.ninja-marker img {
+  width: 25px;
+}
+
