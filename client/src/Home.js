@@ -82,7 +82,8 @@ const Home = (props) => {
         const mapRef = useRef()
 
 
-const MAPBOX_TOKEN ='pk.eyJ1IjoibGl6emV0aGdkIiwiYSI6ImNrZjN3aHhvNDA3NzUzMm9mcWFlbDlrYm8ifQ.yc7NKxvjXXHpPBXBaukdYA'
+//const MAPBOX_TOKEN ='pk.eyJ1IjoibGl6emV0aGdkIiwiYSI6ImNrZjN3aHhvNDA3NzUzMm9mcWFlbDlrYm8ifQ.yc7NKxvjXXHpPBXBaukdYA'
+//const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN
 
         return (
             <> 
@@ -106,7 +107,7 @@ const MAPBOX_TOKEN ='pk.eyJ1IjoibGl6emV0aGdkIiwiYSI6ImNrZjN3aHhvNDA3NzUzMm9mcWFl
                     <  ReactMapGL  {...viewport} maxZoom={20}
                     onViewportChange={newViewport => { setViewport ({...newViewport})}}
                     mapStyle="mapbox://styles/mapbox/streets-v11"  
-                    mapboxApiAccessToken={MAPBOX_TOKEN}
+                    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                     
                     ref={mapRef}
                     >Mapa aqui  {ninjasMarkers}
