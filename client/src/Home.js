@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport,  } from "react-map-gl";
+import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport, FlyToInterpolator} from "react-map-gl";
 import { Link } from 'react-router-dom';
 import {getNinjas} from './apiCore';
 
@@ -70,9 +70,21 @@ const Home = (props) => {
             longitude={ninja.geometry.coordinates[0]}
             offsetLeft={-20}
              offsetTop={-10}>
-                <button className='ninja-marker' onMouseOver={e =>  {
+                <button className='ninja-marker'
+                  onMouseOver={() =>  {setNinjas({...ninjas, ninja: ninja})} } 
+                  onClick={e => {
                     e.preventDefault()
-                    setNinjas({...ninjas, ninja: ninja})} } >
+                      setViewport({
+                        ...viewport,
+                        longitude: ninjas.ninja.geometry.coordinates[0],
+                        latitude: ninjas.ninja.geometry.coordinates[1],
+                        zoom: 14,
+                        transitionInterpolator: new FlyToInterpolator({speed: 2 }),
+                        transitionDuration: "auto"
+                      })  
+                     }} 
+                    >
+
                 <img src='pin2.png' alt='#' />
                 </button>
                 </Marker>))
@@ -80,10 +92,6 @@ const Home = (props) => {
        
 
         const mapRef = useRef()
-
-
-//const MAPBOX_TOKEN ='pk.eyJ1IjoibGl6emV0aGdkIiwiYSI6ImNrZjN3aHhvNDA3NzUzMm9mcWFlbDlrYm8ifQ.yc7NKxvjXXHpPBXBaukdYA'
-//const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN
 
         return (
             <> 
@@ -110,12 +118,12 @@ const Home = (props) => {
                     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                     
                     ref={mapRef}
-                    >Mapa aqui  {ninjasMarkers}
+                    >Mapa aqui  {ninjas.ninjas.length !==0 ? ninjasMarkers : null}
                     <div className='map-controlls'>
                     <NavigationControl  />
                     </div>
                     {ninjas.ninja ? (
-          <Popup
+          <Popup 
             latitude={ninjas.ninja.geometry.coordinates[1]}
             longitude={ninjas.ninja.geometry.coordinates[0]}
             onClose={() => {
