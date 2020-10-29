@@ -9,7 +9,7 @@ const Home = (props) => {
         ninjas: [],
         lat: '',
         lng: '',
-        ninja: null,
+        ninja: '',
         error: ''
       });
   
@@ -21,14 +21,20 @@ const Home = (props) => {
         e.preventDefault();
         getNinjas(ninjas.lng, ninjas.lat )
         .then(data => { data.error 
-        ? setNinjas({...ninjas, error: data.error})
+        ? setNinjas({...ninjas, error: data.error})       
         : setNinjas({...ninjas, ninjas: data})
-        getBoundsForPoints(data) 
+          getBoundsForPoints(data)    
     })
   
       }
+
     
+
     const getBoundsForPoints = (points) => {
+            
+            if (points.lenght !== undefined) 
+            {
+
             const applyToArray = (func, array) => func.apply(Math, array)
             // Calculate corner values of bounds
             const pointsLong = points.map(point => point.geometry.coordinates[0])
@@ -44,7 +50,9 @@ const Home = (props) => {
             console.log(viewport)
             const { longitude, latitude, zoom } = viewport
             console.log( longitude+': '+typeof longitude+', '+latitude+': '+typeof latitude+', '+zoom+': '+typeof zoom)
-            setViewport(viewport => ({ ...viewport, longitude: longitude, latitude: latitude, zoom: zoom  }));
+            setViewport(viewport => ({ ...viewport, longitude: longitude, latitude: latitude, zoom: zoom  }))
+
+           }
           }
           
         const [viewport, setViewport] = useState({
@@ -89,7 +97,21 @@ const Home = (props) => {
                 </button>
                 </Marker>))
 
-       
+        const ninjaPopup  = ninjas.ninja 
+        ? 
+          (<Popup 
+            latitude={ninjas.ninja.geometry.coordinates[1]}
+            longitude={ninjas.ninja.geometry.coordinates[0]}
+            onClose={() => {
+                setNinjas({...ninjas, ninja: null})
+            }}
+          >
+            <div>
+              <h2>{ninjas.ninja.name}</h2>
+              <p>{ninjas.ninja.rank}</p>
+            </div>
+          </Popup>)
+        : null  
 
         const mapRef = useRef()
 
@@ -115,27 +137,14 @@ const Home = (props) => {
                     <  ReactMapGL  {...viewport} maxZoom={20}
                     onViewportChange={newViewport => { setViewport ({...newViewport})}}
                     mapStyle="mapbox://styles/mapbox/streets-v11"  
-                    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                    
+                    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}  
                     ref={mapRef}
-                    >Mapa aqui  {ninjas.ninjas.length !==0 ? ninjasMarkers : null}
+                    >
+                    Mapa aqui  {ninjasMarkers }
                     <div className='map-controlls'>
                     <NavigationControl  />
                     </div>
-                    {ninjas.ninja ? (
-          <Popup 
-            latitude={ninjas.ninja.geometry.coordinates[1]}
-            longitude={ninjas.ninja.geometry.coordinates[0]}
-            onClose={() => {
-                setNinjas({...ninjas, ninja: null})
-            }}
-          >
-            <div>
-              <h2>{ninjas.ninja.name}</h2>
-              <p>{ninjas.ninja.rank}</p>
-            </div>
-          </Popup>
-        ) : null}
+                    {ninjaPopup }
                 </ReactMapGL>   
                 </div>
          </>
