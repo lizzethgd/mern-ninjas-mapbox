@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport, FlyToInterpolator} from "react-map-gl";
+import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport,  } from "react-map-gl";
 import { Link } from 'react-router-dom';
 import {getNinjas} from './apiCore';
 
@@ -78,21 +78,9 @@ const Home = (props) => {
             longitude={ninja.geometry.coordinates[0]}
             offsetLeft={-20}
              offsetTop={-10}>
-                <button className='ninja-marker'
-                  onMouseOver={() =>  {setNinjas({...ninjas, ninja: ninja})} } 
-                  onClick={e => {
+                <button className='ninja-marker' onMouseOver={e =>  {
                     e.preventDefault()
-                      setViewport({
-                        ...viewport,
-                        longitude: ninjas.ninja.geometry.coordinates[0],
-                        latitude: ninjas.ninja.geometry.coordinates[1],
-                        zoom: 14,
-                        transitionInterpolator: new FlyToInterpolator({speed: 2 }),
-                        transitionDuration: "auto"
-                      })  
-                     }} 
-                    >
-
+                    setNinjas({...ninjas, ninja: ninja})} } >
                 <img src='pin2.png' alt='#' />
                 </button>
                 </Marker>))
@@ -114,6 +102,10 @@ const Home = (props) => {
         : null  
 
         const mapRef = useRef()
+
+
+//const MAPBOX_TOKEN ='pk.eyJ1IjoibGl6emV0aGdkIiwiYSI6ImNrZjN3aHhvNDA3NzUzMm9mcWFlbDlrYm8ifQ.yc7NKxvjXXHpPBXBaukdYA'
+//const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN
 
         return (
             <> 
@@ -139,12 +131,33 @@ const Home = (props) => {
                     mapStyle="mapbox://styles/mapbox/streets-v11"  
                     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}  
                     ref={mapRef}
+<<<<<<< HEAD
                     >
                     Mapa aqui  {ninjasMarkers }
                     <div className='map-controlls'>
                     <NavigationControl  />
                     </div>
                     {ninjaPopup }
+=======
+                    >Mapa aqui  {ninjasMarkers}
+                    <div className='map-controlls'>
+                    <NavigationControl  />
+                    </div>
+                    {ninjas.ninja ? (
+          <Popup
+            latitude={ninjas.ninja.geometry.coordinates[1]}
+            longitude={ninjas.ninja.geometry.coordinates[0]}
+            onClose={() => {
+                setNinjas({...ninjas, ninja: null})
+            }}
+          >
+            <div>
+              <h2>{ninjas.ninja.name}</h2>
+              <p>{ninjas.ninja.rank}</p>
+            </div>
+          </Popup>
+        ) : null}
+>>>>>>> parent of 54ecf56... flyinterpolator added to map
                 </ReactMapGL>   
                 </div>
          </>

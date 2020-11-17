@@ -39,6 +39,6 @@ app.get('*', (req, res) => {
   })
 
 // listen for requests
-app.listen(process.env.port || 5000, function(){
+app.listen(process.env.port || 5500, function(){
     console.log('now listening for requests');
 })
