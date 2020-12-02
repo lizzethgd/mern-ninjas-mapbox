@@ -10,7 +10,7 @@ const Home = (props) => {
 const [ninjas, setNinjas] = useState({
     ninjas: [],
     ninja: '',
-    viewportWithBonus: {},
+    viewportWithBounds: {},
     error: ''
   });
 
@@ -27,9 +27,18 @@ const token = process.env.REACT_APP_MAPBOX_TOKEN
 const mapRef = useRef()
 const geocoderContainerRef = useRef()
 
-const getBoundsForPoints = (points) => {
-        
-  const applyToArray = (func, array) => func.apply(Math, array)
+
+
+const applyToArray = (func, array) => func.apply(Math, array)
+
+const handleViewportChange = useCallback(
+  (newViewport) => setViewport(newViewport),[]
+);
+
+
+const getBoundsForPoints = useCallback( (points) => {
+  
+  if (points.length >=1) {
   // Calculate corner values of bounds
   const pointsLong = points.map(point => point.geometry.coordinates[0])
   const pointsLat = points.map(point => point.geometry.coordinates[1])
@@ -40,41 +49,37 @@ const getBoundsForPoints = (points) => {
   const viewport = new WebMercatorViewport({ width: 800, height: 600 })
   .fitBounds(cornersLongLat, { padding: 200 })
   const { longitude, latitude, zoom } = viewport
-
-  const geocoderDefaultOverrides = {longitude: longitude, latitude: latitude, zoom: zoom, transitionDuration: 1000 } 
+ 
+  const geocoderDefaultOverrides = {longitude: longitude, latitude: latitude, zoom: points.length >1 ? zoom : 14.76, transitionDuration: 1000 } 
   
-  setNinjas({...ninjas, ninjas: points, viewportWithBonus: geocoderDefaultOverrides})
-
+  setNinjas(ninjas => ({...ninjas, error: ''}))
   
-  
-  //return cornersLongLat 
-}  
+  return handleViewportChange({
+    ...geocoderDefaultOverrides
+  });
 
-const handleData = async (long,lat) => {
+}else {
+  setNinjas(ninjas => ({...ninjas, error: 'There is not ninjas available in that point'}))}  
+}
+,[handleViewportChange]
+)
+  
+const handleData =  useCallback(  (long,lat) => {
     getNinjas(long, lat)
     .then( data => { data.error 
       ? setNinjas({...ninjas, error: data.error})
-      : getBoundsForPoints(data)
-      console.log('changedata made')
-  
+      : setNinjas({...ninjas, ninjas: data})
+       getBoundsForPoints(data)
     })
-}
+},[getBoundsForPoints, ninjas]
+)
 
-const handleViewportChange = useCallback(
-  (newViewport) => setViewport(newViewport)
-);
 
-const handleGeocoderViewportChange = useCallback(  
+const  handleGeocoderViewportChange = useCallback(   
   async (newViewport) => {
     console.log(newViewport)
-    
     handleData(newViewport.longitude, newViewport.latitude)
-    //const geocoderDefaultOverrides = ninjas.viewportWithBonus
-    await handleViewportChange({
-      ...newViewport,
-      ...ninjas.viewportWithBonus
-    });
-  }
+  },[handleData]
 )
 
 const ninjasList= ninjas.ninjas.map(ninja=> 
@@ -128,7 +133,6 @@ const ninjasList= ninjas.ninjas.map(ninja=>
     : null  
 
 
-console.log(ninjas.viewportWithBonus)
 console.log(viewport)
 
 return (
@@ -142,7 +146,8 @@ return (
         <div id="ninja-container">
            <form id="search" >
                   <label>Enter your address:</label>
-                  <div ref={geocoderContainerRef}></div> 
+                  <div ref={geocoderContainerRef} className='geocoderContainer'></div>
+                   <p>{ninjas.error}</p> 
             </form>
         </div>
         <div className='map'>
@@ -161,7 +166,6 @@ return (
             containerRef={geocoderContainerRef}
             onViewportChange={handleGeocoderViewportChange}
             mapboxApiAccessToken={token}
-            position="top-left"
             />
           </div>
             {ninjaPopup }
@@ -172,18 +176,4 @@ return (
         )
     }
   
-  
   export default Home;
-  
-//{newViewport => { setViewport ({...newViewport},[])}}
-
-//newViewport => { setViewport ({...newViewport})}
-//console.log(newViewport.longitude+'. '+newViewport.latitude)
-//console.log(newViewport)
-
-/* bbox0= cornersLongLat
-  console.log(bbox0)
-  setNinjas({...ninjas, bbox: cornersLongLat})
-  setBbox(cornersLongLat)
-  console.log(bbox)
-  console.log(ninjas.bbox) */
