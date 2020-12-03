@@ -9,6 +9,7 @@ import Home from './Home';
 import AddNinja from './AddNinja'
 import Ninja from './Ninja'
 import UpdateNinja from './UpdateNinja'
+import Footer from './Footer'
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route  path="/updateninja/:id"  component={UpdateNinja}/>
           <Route  path="/ninja/:id" component={Ninja} />
         </Switch>
+        <Footer/>
       </BrowserRouter>
     )
   }

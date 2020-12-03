@@ -138,18 +138,15 @@ console.log(viewport)
 return (
     <> 
         <br/>       
-        <h1 className="title">NinjaGo - a Ninja REST API</h1>
         <div id="homepage">
-            <h1>Hire a ninja in your area!</h1>
+            <h2>Hire a ninja in your area!</h2>
               <div id="ninjas"></div>
         </div>
-        <div id="ninja-container">
-           <form id="search" >
-                  <label>Enter your address:</label>
+        <form id="ninja-container">
+                  <h4>Enter your city:</h4>
                   <div ref={geocoderContainerRef} className='geocoderContainer'></div>
-                   <p>{ninjas.error}</p> 
-            </form>
-        </div>
+                   <span id='error'>{ninjas.error}</span> 
+        </form>
         <div className='map'>
         <  ReactMapGL  
               ref={mapRef}
@@ -171,7 +168,7 @@ return (
             {ninjaPopup }
         </ReactMapGL>   
         </div>
-        <div> <ul>{ninjasList}</ul> </div>
+        <div className='list'> <ul>{ninjasList}</ul> </div>
   </>
         )
     }
