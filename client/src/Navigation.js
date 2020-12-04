@@ -38,8 +38,8 @@ Navibar.propTypes = {
 
 export default Navibar
 
-{/* <NavLink className="navlink" to="/signup">Signup</NavLink>
+/* <NavLink className="navlink" to="/signup">Signup</NavLink>
 <NavLink className="navlink" to="/login">Login</NavLink>
 <NavLink className="navlink" to="/ninjas">Ninjas</NavLink>
 <NavLink className="navlink" to="/addninja">Add</NavLink>
-<NavLink className="navlink" to="/logout">Logout</NavLink> */}
+<NavLink className="navlink" to="/logout">Logout</NavLink> */
