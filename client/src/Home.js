@@ -137,7 +137,8 @@ console.log(viewport)
 
 return (
     <> 
-        <br/>       
+        <br/>
+        <h2 className="title">Ninja Locator - a Ninja REST API</h2>    
         <div id="homepage">
             <h2>Hire a ninja in your area!</h2>
               <div id="ninjas"></div>
