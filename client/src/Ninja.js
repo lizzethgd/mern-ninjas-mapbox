@@ -42,10 +42,11 @@ const Ninja = (props) => {
 
   return (
     <>
-    <div className="container">
+    <div className="mb-3">
         <Card ninja={ninja} />
-        <Link className="btn btn-success" to={`/updateninja/${ninja.id}`}>Update</Link> <button className="btn btn-danger" onClick={delNinja}>Delete</button>
-        
+        <div className='formBottons'>
+        <Link className="btn btn-success" to={`/updateninja/${ninja.id}`}>Update</Link> <button className="btn btn-danger" onClick={delNinja}>Delete</button> <Link className="btn btn-primary" to={'/'}>Cancel</Link>
+        </div>
     </div>
     </>
   )

@@ -57,11 +57,10 @@ const UpdateNinja = (props) => {
 
   return (
     <>
-    {console.log(available)}
     <form className='mb-3' onSubmit={handleSubmit}>
       <h4>Update Ninja</h4>
       <div className='form-group'>
-      <label className='text-muted'>Name</label>
+      <label >Name</label>
       <input className='form-control'
           type='text'
           name = 'name'
@@ -70,7 +69,7 @@ const UpdateNinja = (props) => {
       />
       </div>
       <div className='form-group'>
-      <label className='text-muted'>Rank</label>
+      <label >Belt</label>
       <input className='form-control'
           type='text'
           name = 'rank'
@@ -78,29 +77,20 @@ const UpdateNinja = (props) => {
           onChange={handleChange}
       />
       </div>
-      <div className='form-group'>
-      <div className="form-check-inline">
-      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  checked={available===false | available==='false'}/>
-      <label className="form-check-label" >
-          Not available</label>
-      </div>
+      <div className='formChecks'>
       <div className="form-check-inline">
       <input className="form-check-input" type="radio" name='available' value='true'  onChange={handleChange}  checked={available===true | available==='true'}/>
       <label className="form-check-label" >
           Available</label>
       </div>
-      </div> 
-      <div className='form-group'>
-      <label className='text-muted'>Lng</label>
-      <input className='form-control'
-          type='number'
-          name='lng'
-          value= {lng}
-          onChange={handleChange}      
-      />
+      <div className="form-check-inline">
+      <input className="form-check-input" type="radio" name='available' value='false' onChange={handleChange}  checked={available===false | available==='false'}/>
+      <label className="form-check-label" >
+          Not available</label>
+      </div>
       </div>
       <div className='form-group'> 
-      <label className='text-muted'>Lat</label>
+      <label >Latitude</label>
       <input className='form-control'
           type='number'
           name='lat'
@@ -109,8 +99,18 @@ const UpdateNinja = (props) => {
       />
       </div>
       <div className='form-group'>
-      <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
+      <label >Longitude</label>
+      <input className='form-control'
+          type='number'
+          name='lng'
+          value= {lng}
+          onChange={handleChange}      
+      />
       </div>
+      <div className='formBottons'>
+      <button className='btn btn-success' onClick={handleSubmit}>Update ninja</button> <Link className="btn btn-primary" to={'/'}>Cancel</Link>
+      </div>
+      {console.log(available)}
   </form>
     </>
   ) 

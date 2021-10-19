@@ -36,52 +36,55 @@ const handleSubmit = e => {
         <form className='mb-3' onSubmit={handleSubmit}>
             <h4>Add Ninja</h4>
             <div className='form-group'>
-            <label className='text-muted'>Name</label>
+            <label >Name</label>
             <input className='form-control'
                 type='text'
                 name = 'name'
                 onChange={handleChange}
+                placeholder='Name'
             />
             </div>
             <div className='form-group'>
-            <label className='text-muted'>Rank</label>
+            <label>Belt</label>
             <input className='form-control'
                 type='text'
                 name = 'rank'
                 onChange={handleChange}
+                placeholder='Belt'
             />
             </div>
-            <div className='form-group'>
+            <div className='formChecks'>
+            <div className="form-check-inline">
+                <input className="form-check-input" type="radio" name='available'  onChange={handleChange} value='true' />
+                <label className="form-check-label" >
+                    Available</label>
+                </div>
                 <div className="form-check-inline">
                 <input className="form-check-input" type="radio" name='available'  onChange={handleChange} value='false' />
                 <label className="form-check-label" >
                     Not available</label>
                 </div>
-                <div className="form-check-inline">
-                <input className="form-check-input" type="radio" name='available'  onChange={handleChange} value='true' />
-                <label className="form-check-label" >
-                    Available</label>
-                </div>
-            </div>
-
-            <div className='form-group'>
-            <label className='text-muted'>Lng</label>
-            <input className='form-control'
-                type='number'
-                name='lng'
-                onChange={handleChange}
-            />
             </div>
             <div className='form-group'>
-            <label className='text-muted'>Lat</label>
+            <label>Latitude</label>
             <input className='form-control'
                 type='number'
                 name='lat'
                 onChange={handleChange}
+                placeholder='Latitude'
             />
             </div>
             <div className='form-group'>
-            <button className='btn btn-success' onClick={handleSubmit}>Add ninja</button> <Link className="btn btn-danger" to={'/'}>Cancel</Link>
+            <label>Longitude</label>
+            <input className='form-control'
+                type='number'
+                name='lng'
+                onChange={handleChange}
+                placeholder='Longitude'
+            />
+            </div>
+            <div className='formBottons'>
+            <button className='btn btn-success' onClick={handleSubmit}>Add ninja</button> <Link className="btn btn-primary" to={'/'}>Cancel</Link>
             </div>
         </form>
         </>

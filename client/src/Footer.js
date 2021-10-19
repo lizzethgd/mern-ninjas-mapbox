@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <footer>
         <small>
-        <b>Ninjas Locator App © Lizzeth Garcia</b>
+        <span>Ninjas Locator App © Lizzeth Garcia - 2020</span>
         </small>
         </footer>
     )

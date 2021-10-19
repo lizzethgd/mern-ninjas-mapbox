@@ -1,6 +1,6 @@
-export const getNinjas = (lgn,lat) => {
+export const getNinjas = (lgn,lat,rad) => {
     return fetch(
-      `/api/ninjas/near?lng=${lgn}&lat=${lat}`,
+      `/api/ninjas/near?lng=${lgn}&lat=${lat}&rad=${rad}`,
       {
         method: 'GET'
       }

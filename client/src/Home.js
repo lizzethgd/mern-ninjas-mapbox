@@ -5,6 +5,14 @@ import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport, FlyT
 import { Link } from 'react-router-dom';
 import {getNinjas} from './apiCore';
 
+const navStyle = {
+  padding: 0
+};
+
+const geocoderContainerStyle = {
+  color: '#0000'
+}
+ 
 const Home = (props) => {
  
 const [ninjas, setNinjas] = useState({
@@ -13,28 +21,32 @@ const [ninjas, setNinjas] = useState({
     viewportWithBounds: {},
     error: ''
   });
-
   
 const [viewport, setViewport] = useState({
-    longitude: 2.173404,
-    latitude: 41.385063,
+    longitude: 24.916528,
+    latitude:  60.205091,
     width: "70vw",
     height: "70vh",
     zoom: 9
   })  
 
+const [radius, setRadius] =useState(25)
+
 const token = process.env.REACT_APP_MAPBOX_TOKEN 
 const mapRef = useRef()
 const geocoderContainerRef = useRef()
 
-
+const radiusChange = e => {
+  const newRadius = e.target.value
+  setRadius(newRadius)
+  console.log(radius)
+}  
 
 const applyToArray = (func, array) => func.apply(Math, array)
 
 const handleViewportChange = useCallback(
   (newViewport) => setViewport(newViewport),[]
 );
-
 
 const getBoundsForPoints = useCallback( (points) => {
   
@@ -64,8 +76,8 @@ const getBoundsForPoints = useCallback( (points) => {
 ,[handleViewportChange]
 )
   
-const handleData =  useCallback(  (long,lat) => {
-    getNinjas(long, lat)
+const handleData =  useCallback(  (long,lat, rad) => {
+    getNinjas(long, lat, rad)
     .then( data => { data.error 
       ? setNinjas({...ninjas, error: data.error})
       : setNinjas({...ninjas, ninjas: data})
@@ -78,21 +90,11 @@ const handleData =  useCallback(  (long,lat) => {
 const  handleGeocoderViewportChange = useCallback(   
   async (newViewport) => {
     console.log(newViewport)
-    handleData(newViewport.longitude, newViewport.latitude)
-  },[handleData]
+    handleData(newViewport.longitude, newViewport.latitude, radius)
+  },[handleData, radius]
 )
 
-const ninjasList= ninjas.ninjas.map(ninja=> 
-    ( <Link to={`/ninja/${ninja._id}`} key={ninja._id}><li >
-            <span className={ ninja.available ? 'true' : 'false'}></span>
-            <span className="name">{ninja.name}</span>
-            <span className="rank">{ninja.rank}</span>
-            <span className="dist">{Math.floor(ninja.dis / 1000)} km</span>
-    </li></Link> 
-    )
-  ) 
-
-  const ninjasMarkers= ninjas.ninjas.map(ninja=> 
+const ninjasMarkers= ninjas.ninjas.map(ninja=> 
     (<Marker key={ninja._id} 
       latitude={ninja.geometry.coordinates[1]}
       longitude={ninja.geometry.coordinates[0]}
@@ -112,11 +114,11 @@ const ninjasList= ninjas.ninjas.map(ninja=>
                 })  
                 }} 
               >
-              <img src='pin2.png' alt='#' />
+              <img src='ninja.png' alt='#' />
           </button>
       </Marker>))
 
-    const ninjaPopup  = ninjas.ninja 
+const ninjaPopup  = ninjas.ninja 
     ? 
       (<Popup 
         latitude={ninjas.ninja.geometry.coordinates[1]}
@@ -124,54 +126,64 @@ const ninjasList= ninjas.ninjas.map(ninja=>
         onClose={() => {
             setNinjas({...ninjas, ninja: null})
         }}
+        className='popupStyle'
       >
-        <div>
-          <h2>{ninjas.ninja.name}</h2>
-          <p>{ninjas.ninja.rank}</p>
+        <div className='popupInfo'>
+          <h4>{ninjas.ninja.name}</h4>
+          <p>{ninjas.ninja.rank} belt</p>
         </div>
       </Popup>)
     : null  
 
-
-console.log(viewport)
+const ninjasList= ninjas.ninjas.map(ninja=> 
+      ( <Link to={`/ninja/${ninja._id}`} key={ninja._id}><li className='liColumn'>
+              <span className={ ninja.available ? 'true' : 'false'}></span>
+              <span >{ninja.name}</span>
+              <span>{ninja.rank} belt</span>
+              <span>{Math.floor(ninja.dis / 1000)} Km</span>
+      </li></Link> 
+      )
+) 
 
 return (
-    <> 
-        <br/>
-        <h2 className="title">Ninja Locator - a Ninja REST API</h2>    
-        <div id="homepage">
-            <h2>Hire a ninja in your area!</h2>
-              <div id="ninjas"></div>
+    <div className='wrapContainer'> 
+        <form className='formContainer'>
+          <div className='selectGroup'>
+            <label>Radio: </label>
+            <select value={radius} onChange={radiusChange}>
+                  <option value={25}>25 Km</option>
+                  <option value={45}>45 Km</option>
+                  <option value={100}>100 Km</option>
+            </select>
         </div>
-        <form id="ninja-container">
-                  <h4>Enter your city:</h4>
-                  <div ref={geocoderContainerRef} className='geocoderContainer'></div>
-                   <span id='error'>{ninjas.error}</span> 
+        <div ref={geocoderContainerRef} ></div>  
         </form>
-        <div className='map'>
-        <  ReactMapGL  
+        <span id='error'>{ninjas.error}</span> 
+        <ReactMapGL  
               ref={mapRef}
             {...viewport} maxZoom={20}
             onViewportChange={handleViewportChange}
             mapStyle="mapbox://styles/mapbox/streets-v11"  
-            mapboxApiAccessToken={token}  
+            mapboxApiAccessToken={token}
             >
-            Mapa aqui  {ninjasMarkers }
-          <div className='map-controlls'>
-            <NavigationControl  />
-            <Geocoder
+            {ninjasMarkers }
+            <NavigationControl className='navControl'/>
+          <Geocoder
             mapRef={mapRef}
             containerRef={geocoderContainerRef}
             onViewportChange={handleGeocoderViewportChange}
             mapboxApiAccessToken={token}
-            />
-          </div>
+            countries={'fi'}
+            marker={false}
+            placeholder={'  Find a ninja in your area!'}
+          />
             {ninjaPopup }
         </ReactMapGL>   
-        </div>
-        <div className='list'> <ul>{ninjasList}</ul> </div>
-  </>
+        <div className='ninjasList'> <ul>{ninjasList}</ul> </div>
+  </div>
         )
     }
   
   export default Home;
+
+  // onResults={geoViewport ? handleData(geoViewport.longitude, geoViewport.latitude) : null}

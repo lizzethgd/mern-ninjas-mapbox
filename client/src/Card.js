@@ -11,14 +11,12 @@ const Card = ({ninja}) => {
   } = ninja
  
   return (
-    <div className="card m-10 card-cont">
-      <div className="">   
+    <div className="card m-10 card-cont">   
         <h4>{name}</h4>
-        <p>{rank}</p>
+        <p>Rank: {rank} belt</p>
         <p>{available ? 'Available' : 'Not available'}</p>
-        <p>{`Longitud: ${lng}, Latitungd: ${lat}`}</p>
-       
-      </div>
+        <p>Latitud: {lat}</p>
+        <p>Longitud: {lng}</p>
     </div>
   )
 }
