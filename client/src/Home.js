@@ -4,23 +4,8 @@ import Geocoder from 'react-map-gl-geocoder'
 import ReactMapGL, { Marker, Popup, NavigationControl, WebMercatorViewport, FlyToInterpolator} from "react-map-gl";
 import { Link } from 'react-router-dom';
 import {getNinjas} from './apiCore';
-
-const navStyle = {
-  padding: 0
-};
-
-const geocoderContainerStyle = {
-  color: '#0000'
-}
  
-const Home = (props) => {
- 
-const [ninjas, setNinjas] = useState({
-    ninjas: [],
-    ninja: '',
-    viewportWithBounds: {},
-    error: ''
-  });
+const Home = () => {
   
 const [viewport, setViewport] = useState({
     longitude: 24.916528,
@@ -30,7 +15,10 @@ const [viewport, setViewport] = useState({
     zoom: 9
   })  
 
+const [ninjas, setNinjas] = useState([])
+const [ninja, setNinja] = useState('')
 const [radius, setRadius] =useState(25)
+const [error, setError] = useState('')
 
 const token = process.env.REACT_APP_MAPBOX_TOKEN 
 const mapRef = useRef()
@@ -63,51 +51,47 @@ const getBoundsForPoints = useCallback( (points) => {
   const { longitude, latitude, zoom } = viewport
  
   const geocoderDefaultOverrides = {longitude: longitude, latitude: latitude, zoom: points.length >1 ? zoom : 14.76, transitionDuration: 1000 } 
-  
-  setNinjas(ninjas => ({...ninjas, error: ''}))
-  
+    
   return handleViewportChange({
     ...geocoderDefaultOverrides
   });
 
-}else {
-  setNinjas(ninjas => ({...ninjas, error: 'There is not ninjas available in that point'}))}  
+}else{
+  setError('There is not ninjas available in that Location')
+} 
 }
 ,[handleViewportChange]
 )
+
+const handleResult = useCallback((e) => {
+
+  const latitude = e.result.geometry.coordinates[1]
+  const longitude = e.result.geometry.coordinates[0]
   
-const handleData =  useCallback(  (long,lat, rad) => {
-    getNinjas(long, lat, rad)
-    .then( data => { data.error 
-      ? setNinjas({...ninjas, error: data.error})
-      : setNinjas({...ninjas, ninjas: data})
-       getBoundsForPoints(data)
-    })
-},[getBoundsForPoints, ninjas]
-)
-
-
-const  handleGeocoderViewportChange = useCallback(   
-  async (newViewport) => {
-    console.log(newViewport)
-    handleData(newViewport.longitude, newViewport.latitude, radius)
-  },[handleData, radius]
-)
-
-const ninjasMarkers= ninjas.ninjas.map(ninja=> 
+  getNinjas(longitude, latitude, radius)
+  .then( data => { data.error 
+    ? setError(data.error)
+    : setNinjas(data)
+     getBoundsForPoints(data)
+  })
+  },[getBoundsForPoints, radius]
+  )
+  
+const ninjasMarkers= ninjas.map(ninja=> 
     (<Marker key={ninja._id} 
       latitude={ninja.geometry.coordinates[1]}
       longitude={ninja.geometry.coordinates[0]}
       offsetLeft={-20}
         offsetTop={-10}>
           <button className='ninja-marker'
-            onMouseOver={() =>  {setNinjas({...ninjas, ninja: ninja})} } 
+            onMouseOver={() =>  setNinja(ninja) }
+            /* onMouseLeave={() => setNinja('')} */
             onClick={e => {
               e.preventDefault()
                 setViewport({
                   ...viewport,
-                  longitude: ninjas.ninja.geometry.coordinates[0],
-                  latitude: ninjas.ninja.geometry.coordinates[1],
+                  latitude: ninja.geometry.coordinates[1],
+                  longitude: ninja.geometry.coordinates[0],
                   zoom: 14,
                   transitionInterpolator: new FlyToInterpolator({speed: 2 }),
                   transitionDuration: "auto"
@@ -118,24 +102,22 @@ const ninjasMarkers= ninjas.ninjas.map(ninja=>
           </button>
       </Marker>))
 
-const ninjaPopup  = ninjas.ninja 
+const ninjaPopup  = ninja 
     ? 
-      (<Popup 
-        latitude={ninjas.ninja.geometry.coordinates[1]}
-        longitude={ninjas.ninja.geometry.coordinates[0]}
-        onClose={() => {
-            setNinjas({...ninjas, ninja: null})
-        }}
+    (<Popup
         className='popupStyle'
+        latitude={ninja.geometry.coordinates[1]}
+        longitude={ninja.geometry.coordinates[0]}
+        onClose={() => setNinja('')}
       >
         <div className='popupInfo'>
-          <h4>{ninjas.ninja.name}</h4>
-          <p>{ninjas.ninja.rank} belt</p>
+          <h4>{ninja.name}</h4>
+          <p>{ninja.rank} belt</p>
         </div>
       </Popup>)
-    : null  
+    : null   
 
-const ninjasList= ninjas.ninjas.map(ninja=> 
+const ninjasList= ninjas.map(ninja=> 
       ( <Link to={`/ninja/${ninja._id}`} key={ninja._id}><li className='liColumn'>
               <span className={ ninja.available ? 'true' : 'false'}></span>
               <span >{ninja.name}</span>
@@ -143,8 +125,9 @@ const ninjasList= ninjas.ninjas.map(ninja=>
               <span>{Math.floor(ninja.dis / 1000)} Km</span>
       </li></Link> 
       )
-) 
+)
 
+console.log(ninja)
 return (
     <div className='wrapContainer'> 
         <form className='formContainer'>
@@ -158,9 +141,9 @@ return (
         </div>
         <div ref={geocoderContainerRef} ></div>  
         </form>
-        <span id='error'>{ninjas.error}</span> 
+        <span id='error'>{error}</span> 
         <ReactMapGL  
-              ref={mapRef}
+            ref={mapRef}
             {...viewport} maxZoom={20}
             onViewportChange={handleViewportChange}
             mapStyle="mapbox://styles/mapbox/streets-v11"  
@@ -171,13 +154,13 @@ return (
           <Geocoder
             mapRef={mapRef}
             containerRef={geocoderContainerRef}
-            onViewportChange={handleGeocoderViewportChange}
             mapboxApiAccessToken={token}
             countries={'fi'}
             marker={false}
-            placeholder={'  Find a ninja in your area!'}
+            placeholder={'Find a ninja in your area!'}
+            onResult={handleResult}
           />
-            {ninjaPopup }
+            {ninjaPopup}
         </ReactMapGL>   
         <div className='ninjasList'> <ul>{ninjasList}</ul> </div>
   </div>
@@ -185,5 +168,3 @@ return (
     }
   
   export default Home;
-
-  // onResults={geoViewport ? handleData(geoViewport.longitude, geoViewport.latitude) : null}
