@@ -10,7 +10,6 @@ router.get('/ninjas', function(req, res, next){
 }) 
 
 router.get('/ninjas/near', function(req, res, next){
-
     Ninja.aggregate()
        .near({
         near:
@@ -18,17 +17,16 @@ router.get('/ninjas/near', function(req, res, next){
             'type': 'Point',
             'coordinates': [parseFloat(req.query.lng), parseFloat(req.query.lat)] 
             }, 
-            maxDistance: 100000, 
-            spherical: true, 
-            distanceField: "dis" 
-            })
+        maxDistance: parseInt(req.query.rad)*1000, 
+        spherical: true, 
+        distanceField: "dis" 
+        })
         .then(function(ninjas){
                 res.send(ninjas);})
         .catch(next);
 });
 
-router.get('/ninjas/:id', function(req, res, next){
-        
+router.get('/ninjas/:id', function(req, res, next){       
     Ninja.findById({_id: req.params.id}).then(function(ninja){
             res.send(ninja)
         })
