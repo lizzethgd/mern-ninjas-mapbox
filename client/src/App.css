@@ -18,7 +18,7 @@ body{
   color: black;
   align-items: center;
   /* max-width: 350px; */
-  margin: 15px auto;
+  margin: 7px auto;
 }
 
 .selectGroup{
@@ -31,12 +31,15 @@ body{
 
 .selectGroup label{
   font-weight: bold;
-  padding: 8px;
+  font-size: 18px;
+  padding: 6px 8px 8px;
   color: #fff;
 }
 
 .selectGroup select{
-  font-size: small
+  font-size: medium;
+  border-radius: 0px 5px 5px 0px;
+  padding: 4px;
   /* height: 2.7em; */
 }
 
@@ -47,7 +50,6 @@ body{
 .mapboxgl-ctrl-group {
   display: inline-block;
 }
-
 
 .popupStyle button{
   color: white;
@@ -182,6 +184,40 @@ body{
   width: 25px;
 }
 
+.card-cont {
+  background: darkslategrey;
+  min-width: 240px;
+  margin: 60px 0 30px 0;
+  padding: 20px 5px;
+  text-align: center;
+  box-shadow: 0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08);
+}
+
+.card-cont h4{
+   margin: 5px 0 25px;
+}
+
+.card-cont h4::after{
+  content: '';
+  height: 5px;
+  width: 100%;
+  background-color: lightyellow;
+  display: block;
+  border-radius: 20px;
+  bottom: 0;
+  z-index: -1;
+}
+
+.card-cont .img {
+  max-width: 200px;
+}
+
+.mapClass{
+  display: flex;
+  justify-content: center;
+  width: 98vw;
+}
+
 .navlink{
   color: lightgray;
   margin: 0 1.8rem 0 0.5rem;
@@ -192,6 +228,11 @@ body{
 .navlink:hover{
 color: white;
 text-decoration: none;
+}
+
+.navControl{
+  top: 0;
+  right: 0
 }
 
 footer {
@@ -214,4 +255,177 @@ footer {
 footer span{
   font-weight: bold;
 }
+
+.mapboxgl-ctrl-geocoder--input{
+
+}
+
+@media only screen and (max-width: 359px) {
+
+
+  /* 
+  .selectGroup{
+    margin-right: 1em;
+  }
+  */
+}
+
+@media only screen  and (orientation: landscape)  {
+/* 
+  .navControl{
+    top: 54px;
+    right: 0
+   } */
+
+}
+
+@media only screen  and (orientation: landscape) and (max-width: 740px) {
+
+
+
+} 
+
+@media only screen and(min-width: 360px) and (max-width: 600px) {
+
+/*   .selectGroup{
+    margin-right: 1em;
+  }
+
+  .selectGroup label{
+    font-weight: normal;
+    padding: 7px;
+  }
+
+  .selectGroup select{
+    width: 3em;
+    padding: 2px;
+  }
+
+  .geocoderContainer{
+    padding: 2px;
+   } */
+
+  
+}
+@media only screen and (max-width: 600px) {
+
+  .formContainer{
+    height: 3em;
+    justify-content: space-between;
+    color: black;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .selectGroup{
+    margin: 0 1mm 0 0;
+    flex-direction: column;
+    width: 23%;
+  }
+
+  .selectGroup label{
+    font-weight: normal;
+    width: 100%;
+    height: 25%;
+    font-size: small;
+    padding: 0px 0px 0px;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .selectGroup select{
+    font-size: small;
+    height: 20px;
+    width: 100%;
+    padding: 0px;
+    border-radius: 0px 0px 3px 5px;
+  }
+
+.geocoderContainer{
+ position: relative;
+ width: 73%;
+}
+
+.mapboxgl-ctrl-geocoder{
+  height: 2em;
+  line-height: 1;
+}
+
+.mapboxgl-ctrl-geocoder--input{
+  position: relative;
+  top: -6px;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.mapboxgl-ctrl-geocoder--input::placeholder {
+ font-size: small;
+ color: black;
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  font-size: small;
+  height: 2.5em;
+  top: 1.9px;
+  padding-left: 35px;
+}
+
+.mapboxgl-ctrl-geocoder--input:not(:focus){ 
+  font-size: small;
+  padding-left: 35px;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions {
+  font-size: small;
+  padding-left: 35px;
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  padding: 0 0 8px 0;
+}
+
+.mapboxgl-ctrl-geocoder--icon-close {
+  padding: 0 0 8px 0;
+}
+
+.mapbox-gl-geocoder--error{
+  color: darkslategrey;
+  padding: 5px 12px;
+  font-size: small;
+  text-align: center
+}
+
+.mapboxgl-ctrl-geocoder--icon-loading {
+  width: 15px;
+  height: 15px;
+  top: -1px;
+  margin-right: -3px;
+  padding: 0 0 8px 0;
+}
+
+.mapboxgl-ctrl-geocoder .suggestions > li > a {
+  padding: 3px 6px;
+  font-size: small;
+}
+
+.mapClass{
+  width: 95vw;
+}
+
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1200px){
+/*big tablets and laptops*/ 
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1400px) {
+  
+}
+
+@media only screen and (min-width: 1400px) {
+
+ 
+
+}
+
 

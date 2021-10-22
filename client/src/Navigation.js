@@ -16,7 +16,7 @@ const Navibar = props => {
           className="d-inline-block align-top"
           />
           {' '}
-          MERN Ninjas Locator App
+          Ninjas Locator App
       </NavLink>
      
      

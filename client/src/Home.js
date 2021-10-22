@@ -10,8 +10,8 @@ const Home = () => {
 const [viewport, setViewport] = useState({
     longitude: 24.916528,
     latitude:  60.205091,
-    width: "70vw",
-    height: "70vh",
+    width: "100vw",
+    height: "74vh",
     zoom: 9
   })  
 
@@ -132,22 +132,24 @@ return (
     <div className='wrapContainer'> 
         <form className='formContainer'>
           <div className='selectGroup'>
-            <label>Radio: </label>
+            <label>Radius</label>
             <select value={radius} onChange={radiusChange}>
                   <option value={25}>25 Km</option>
                   <option value={45}>45 Km</option>
                   <option value={100}>100 Km</option>
             </select>
         </div>
-        <div ref={geocoderContainerRef} ></div>  
+        <div ref={geocoderContainerRef} className='geocoderContainer' ></div>  
         </form>
         <span id='error'>{error}</span> 
+        <div className={'mapClass'}>
         <ReactMapGL  
             ref={mapRef}
             {...viewport} maxZoom={20}
             onViewportChange={handleViewportChange}
             mapStyle="mapbox://styles/mapbox/streets-v11"  
             mapboxApiAccessToken={token}
+            
             >
             {ninjasMarkers }
             <NavigationControl className='navControl'/>
@@ -161,7 +163,8 @@ return (
             onResult={handleResult}
           />
             {ninjaPopup}
-        </ReactMapGL>   
+        </ReactMapGL>
+        </div>   
         <div className='ninjasList'> <ul>{ninjasList}</ul> </div>
   </div>
         )
