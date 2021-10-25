@@ -3,6 +3,7 @@ body{
   background: #ff5252;
   margin: 0;
   height: 100%;
+  overflow-y: auto
 }
 
 .wrapContainer{
@@ -216,6 +217,7 @@ body{
   display: flex;
   justify-content: center;
   width: 98vw;
+  height: 65vh;
 }
 
 .navlink{
@@ -247,7 +249,7 @@ footer {
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 40px;
+  height: 30px;
   width: 100%;
   z-index: 3;
 }
@@ -308,7 +310,7 @@ footer span{
   
 }
 @media only screen and (max-width: 600px) {
-
+  
   .formContainer{
     height: 3em;
     justify-content: space-between;
@@ -409,7 +411,7 @@ footer span{
 }
 
 .mapClass{
-  width: 95vw;
+  width: 92vw;
 }
 
 }
@@ -419,7 +421,9 @@ footer span{
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1400px) {
-  
+ /*  .mapClass{
+    height: 90vh;
+  } */
 }
 
 @media only screen and (min-width: 1400px) {
