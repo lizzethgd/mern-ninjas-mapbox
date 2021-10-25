@@ -45,7 +45,7 @@ body{
 }
 
 #error{
-  color: rgb(2, 0, 128);
+  color: lightyellow;
 }
 
 .mapboxgl-ctrl-group {
@@ -134,7 +134,7 @@ body{
 
 .ninjasList ul{
   padding: 0mm;
-  margin: 20px 0 55px
+  margin: 17px 0 47px
 }
 
 .liColumn{
@@ -217,7 +217,7 @@ body{
   display: flex;
   justify-content: center;
   width: 98vw;
-  height: 65vh;
+  height: auto;
 }
 
 .navlink{
@@ -258,9 +258,6 @@ footer span{
   font-weight: bold;
 }
 
-.mapboxgl-ctrl-geocoder--input{
-
-}
 
 @media only screen and (max-width: 359px) {
 
@@ -309,43 +306,52 @@ footer span{
 
   
 }
-@media only screen and (max-width: 600px) {
-  
-  .formContainer{
-    height: 3em;
-    justify-content: space-between;
-    color: black;
-    align-items: center;
-    margin: 5px 0;
-  }
-  
-  .selectGroup{
-    margin: 0 1mm 0 0;
-    flex-direction: column;
-    width: 23%;
-  }
+@media only screen and (max-width: 360px) {
 
-  .selectGroup label{
-    font-weight: normal;
-    width: 100%;
-    height: 25%;
-    font-size: small;
-    padding: 0px 0px 0px;
-    text-align: center;
-    vertical-align: top;
-  }
+.formContainer{
+  height: 3em;
+  justify-content: space-between;
+  color: black;
+  align-items: center;
+  margin: 5px 0 0;
+}
 
-  .selectGroup select{
-    font-size: small;
-    height: 20px;
-    width: 100%;
-    padding: 0px;
-    border-radius: 0px 0px 3px 5px;
-  }
+.selectGroup{
+  margin: 0 1mm 0 0;
+  flex-direction: column;
+  width: 23%;
+}
+
+.selectGroup label{
+  font-weight: normal;
+  width: 100%;
+  height: 25%;
+  font-size: small;
+  padding: 0px 0px 0px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.selectGroup select{
+  font-size: small;
+  height: 20px;
+  width: 100%;
+  padding: 0px;
+  border-radius: 0px 0px 3px 5px;
+}
 
 .geocoderContainer{
  position: relative;
  width: 73%;
+}
+
+.ninjasList ul{
+  margin: 13px 0 41px
+}
+
+.liColumn{
+  width: 92vw;
+  margin:11px 0;
 }
 
 .mapboxgl-ctrl-geocoder{
@@ -414,6 +420,16 @@ footer span{
   width: 92vw;
 }
 
+#error{
+  font-size: small;
+  font-weight: bold;
+  padding-bottom: 3px;
+}
+
+footer {
+  margin-top: 5px;
+}
+
 }
 
 @media only screen and (min-width: 601px) and (max-width: 1200px){
@@ -421,13 +437,13 @@ footer span{
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1400px) {
- /*  .mapClass{
-    height: 90vh;
-  } */
+
 }
 
 @media only screen and (min-width: 1400px) {
-
+  footer {
+    height: 45px;
+  }
  
 
 }

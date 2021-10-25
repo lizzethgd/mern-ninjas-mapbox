@@ -52,12 +52,14 @@ const getBoundsForPoints = useCallback( (points) => {
  
   const geocoderDefaultOverrides = {longitude: longitude, latitude: latitude, zoom: points.length >1 ? zoom : 14.76, transitionDuration: 1000 } 
     
+  setError('')
+
   return handleViewportChange({
     ...geocoderDefaultOverrides
   });
 
 }else{
-  setError('There is not ninjas available in that Location')
+  setError('There are not ninjas available in that location!')
 } 
 }
 ,[handleViewportChange]
@@ -142,7 +144,7 @@ return (
         <div ref={geocoderContainerRef} className='geocoderContainer' ></div>  
         </form>
         <span id='error'>{error}</span> 
-        <div className={'mapClass'}>
+        <div className='mapClass'>
         <ReactMapGL  
             ref={mapRef}
             {...viewport} maxZoom={20}
