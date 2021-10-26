@@ -277,7 +277,7 @@ footer span{
 
   .liColumn{
     width: 92vw;
-
+  }
 }
 
 @media only screen  and (orientation: landscape) and (max-width: 720px) {
