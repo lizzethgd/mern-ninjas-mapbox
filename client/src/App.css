@@ -269,12 +269,14 @@ footer span{
   */
 }
 
-@media only screen  and (orientation: landscape)  {
-/* 
-  .navControl{
-    top: 54px;
-    right: 0
-   } */
+@media only screen  and (orientation: portrait)  {
+
+  .mapClass{
+    width: 92vw;
+  }
+
+  .liColumn{
+    width: 92vw;
 
 }
 
