@@ -279,47 +279,38 @@ footer span{
 }
 
 @media only screen  and (orientation: landscape) and (max-width: 600px) {
+   
+   .mapClass{
+    width: 92vw;
+  }
 
-  .mapboxgl-ctrl-geocoder--input::placeholder {
-    font-size: medium;
-   }
-   
-   .mapboxgl-ctrl-geocoder--input:focus {
-     font-size: medium;
-   }
-   
-   .mapboxgl-ctrl-geocoder--input:not(:focus){ 
-     font-size: medium;
-   }
-   
-   .mapboxgl-ctrl-geocoder .suggestions {
-     font-size: medium;
-   }
-   
+  .liColumn{
+    width: 92vw;
+    margin:11px 0;
+  }
+  
+  .selectGroup{
+    height: 2em; 
+  }
+
+  .selectGroup label{
+    font-size: small;
+  }
+  
+  .selectGroup select{
+    font-size: small;
+  }
+
+  footer {
+    z-index: 0;
+  }
 
 } 
 
 @media only screen and(min-width: 360px) and (max-width: 600px) {
-
-/*   .selectGroup{
-    margin-right: 1em;
-  }
-
-  .selectGroup label{
-    font-weight: normal;
-    padding: 7px;
-  }
-
-  .selectGroup select{
-    width: 3em;
-    padding: 2px;
-  }
-
-  .geocoderContainer{
-    padding: 2px;
-   } */
-
+ 
   
+
 }
 @media only screen and (orientation: portrait) and (max-width: 600px) {
 
