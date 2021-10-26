@@ -278,7 +278,7 @@ footer span{
 
 }
 
-@media only screen  and (orientation: landscape) and (max-width: 600px) {
+@media only screen  and (orientation: landscape) and (max-width: 720px) {
    
    .mapClass{
     width: 92vw;
